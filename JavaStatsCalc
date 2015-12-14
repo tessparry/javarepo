@@ -1,0 +1,169 @@
+package pkgfinal;
+
+import java.util.Scanner;
+
+public class Final {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        boolean continu = true;
+        while (continu) {
+            System.out.println("Enter the formula code consistant with your variables.\n"
+                    + "\n"
+                    + "E = Sample mean\n"
+                    + "V = Variance\n"
+                    + "S = Standard Deviation\n"
+                    + "T = Paired sample t-test\n"
+                    + "2T = Two sample t-test\n");
+            String formula = input.next();
+            boolean validinput = false;
+            while (!validinput) {
+                switch (formula.toUpperCase()) {
+                    case ("E"):
+                        System.out.println("Enter the sample size: ");
+                        int s = input.nextInt();
+                        int[] m = new int[s];
+                        System.out.println("Enter each sample value.");
+                        for (int j = 0; j < s; j++) {
+                            m[j] = input.nextInt();
+                        }
+                        int sum = sumint(m);
+                        int smean = sum / s;
+                        System.out.println("The sample mean of your data is " + smean + "\n");
+                        validinput = true;
+                        break;
+                    case ("V"):
+                        System.out.println("Enter the sample size: ");
+                        int r = input.nextInt();
+                        int[] b = new int[r];
+                        System.out.println("Enter each sample value.");
+                        for (int j = 0; j < r; j++) {
+                            b[j] = input.nextInt();
+                        }
+                        int varf = svariance(b);
+                        int sum3 = sumint(b);
+                        int smean3 = sum3 / r;
+                        double[] h = new double[r];
+                        for (int j = 0; j < r; j++) {
+                            h[j] = Math.pow(b[j] - smean3, 2);
+                        }
+                        double square = sumdouble(h);
+                        double sigma = square / r;
+                        System.out.println("The variance of your data is " + sigma +"\n");
+                        validinput = true;
+                        break;
+                    case ("S"):
+                        System.out.println("Enter the sample size: ");
+                        int q = input.nextInt();
+                        int[] d = new int[q];
+                        System.out.println("Enter each sample value.");
+                        for (int j = 0; j < q; j++) {
+                            d[j] = input.nextInt();
+                        }
+                        int vard = svariance(d);
+                        int sumd = sumint(d);
+                        int smeand = sumd / q;
+                        double[] g = new double[q];
+                        for (int j = 0; j < q; j++) {
+                            g[j] = Math.pow(d[j] - smeand, 2);
+                        }
+                        double square2 = sumdouble(g);
+                        double sigma2 = square2 / q;
+                        double stdev = Math.sqrt(sigma2);
+                        System.out.println("The standard deviation of your data is " + stdev +"\n");
+                        validinput = true;
+                        break;
+                    case ("T"):
+                        System.out.println("Enter the sample size: ");
+                        int p = input.nextInt();
+                        int[] n = new int[p];
+                        System.out.println("Enter each sample value.");
+                        for (int j = 0; j < p; j++) {
+                            n[j] = input.nextInt();
+                        }
+                        int var = svariance(n);
+                        int sum2 = sumint(n);
+                        int smean2 = sum2 / p;
+                        double t = var * (Math.sqrt(p)) / Math.sqrt(sum2);
+                        System.out.println("The t-value of your data is " + t +"\n");
+                        validinput = true;
+                        break;
+                    case ("2T"):
+                        System.out.println("Enter the sample size for x: ");
+                        int x = input.nextInt();
+                        int[] o = new int[x];
+                        System.out.println("Enter each sample value for x.");
+                        for (int j = 0; j < x; j++) {
+                            o[j] = input.nextInt();
+                        }
+                        int varx = svariance(o);
+                        int sumx = sumint(o);
+                        int smeanx = sumx / x;
+                        System.out.println("Enter the sample size for y: ");
+                        int y = input.nextInt();
+                        int[] k = new int[y];
+                        System.out.println("Enter each sample value for y.");
+                        for (int j = 0; j < y; j++) {
+                            k[j] = input.nextInt();
+                        }
+                        int vary = svariance(k);
+                        int sumy = sumint(k);
+                        int smeany = sumy / y;
+                        double s2 = (((x - 1) * varx) + ((y - 1) * vary)) / (x + y - 2);
+                        double t2 = ((smeanx - smeany) / Math.sqrt(s2 * ((1 / x) + (1 / y))));
+                        System.out.println("The t-value for your data is " + t2 +"\n");
+                        validinput = true;
+                        break;
+                    default:
+                        System.out.print("Invalid Input.");
+                        validinput = false;
+                        break;
+                }
+                boolean k = false;
+                while (!k) {
+                    System.out.println("Would you like to use another formula?\n"
+                            + "1 = Yes\n"
+                            + "0 = No\n");
+                    int cont = input.nextInt();
+                    if (cont == 1) {
+                        k = true;
+                    } else if (cont == 0) {
+                        k = true;
+                        continu = false;
+                    } else {
+                        System.out.println("Invalid input.");
+                    }
+                }
+            }
+        }
+    }
+
+    public static int sumint(int[] m) {
+        int total = 0;
+        for (int j = 0; j < m.length; j++) {
+            total += m[j];
+        }
+        return total;
+    }
+
+    public static double sumdouble(double[] m) {
+        double total = 0;
+        for (int j = 0; j < m.length; j++) {
+            total += m[j];
+        }
+        return total;
+    }
+
+    public static int svariance(int[] m) {
+        int total = 0;
+        int var = 0;
+        for (int i = 0; i < m.length; i++) {
+            total += m[i];
+        }
+        int total2 = 0;
+        for (int j = 0; j < m.length; j++) {
+            total2 += (m[j] - (total / m.length));
+        }
+        return total2;
+    }
+}
